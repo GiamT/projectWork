@@ -19,21 +19,29 @@ public class UtenteMapper {
         utenteDTO.setUsername(utente.getUsername());
         utenteDTO.setPassword(utente.getPassword());
         utenteDTO.setAmministratore(utente.isAmministratore());
-        // utenteDTO.setLastAccess(utente.getLastAccess() != null ? utente.getLastAccess() : null);
 
-        // Se necessario, imposta anche AdminDTO o ClienteDTO, se associati
+        // Mappa il cliente se presente
+        if (utente.getCliente() != null) {
+            ClienteDTO clienteDTO = new ClienteDTO();
+            Cliente cliente = utente.getCliente();
+            
+            clienteDTO.setId(cliente.getId());
+            clienteDTO.setNome(cliente.getNome());
+            clienteDTO.setEmail(cliente.getEmail());
+            clienteDTO.setPartitaIva(cliente.getPartitaIva());
+            clienteDTO.setCodiceFiscale(cliente.getCodiceFiscale());
+            clienteDTO.setIndirizzo(cliente.getIndirizzo());
+            clienteDTO.setTelefono(cliente.getTelefono());
+            
+            utenteDTO.setCliente(clienteDTO);
+        }
+
+        // Mappa l'admin se presente
         if (utente.getAdmin() != null) {
             AdminDTO adminDTO = new AdminDTO();
             adminDTO.setNome(utente.getAdmin().getNome());
             adminDTO.setEmail(utente.getAdmin().getEmail());
             utenteDTO.setAdmin(adminDTO);
-        }
-
-        if (utente.getCliente() != null) {
-            ClienteDTO clienteDTO = new ClienteDTO();
-            clienteDTO.setNome(utente.getCliente().getNome());
-            clienteDTO.setEmail(utente.getCliente().getEmail());
-            utenteDTO.setCliente(clienteDTO);
         }
 
         return utenteDTO;

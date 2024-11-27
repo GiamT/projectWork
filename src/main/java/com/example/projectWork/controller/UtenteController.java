@@ -17,15 +17,21 @@ public class UtenteController {
     @Autowired
     private UtenteService utenteService;
 
-    // Creazione di un nuovo utente
-    @PostMapping
-    public ResponseEntity<UtenteDTO> createUtente(@RequestBody UtenteDTO utenteDTO) {
-        UtenteDTO createdUtente = utenteService.createUtente(utenteDTO);
-        return new ResponseEntity<>(createdUtente, HttpStatus.CREATED);
+    // Creazione di un nuovo utente associato a un cliente esistente
+    @PostMapping("/{clienteId}")
+    public ResponseEntity<UtenteDTO> createUtente(
+            @PathVariable Integer clienteId,
+            @RequestBody UtenteDTO utenteDTO) {
+        try {
+            UtenteDTO createdUtente = utenteService.createUtente(utenteDTO, clienteId);
+            return new ResponseEntity<>(createdUtente, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Recupero di tutti gli utenti
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<UtenteDTO>> getAllUtenti() {
         List<UtenteDTO> utenti = utenteService.getAllUtenti();
         return new ResponseEntity<>(utenti, HttpStatus.OK);
@@ -59,5 +65,19 @@ public class UtenteController {
         boolean isDeleted = utenteService.deleteUtente(username);
         return isDeleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND); // Utente non trovato
+    }
+
+    // Verifica credenziali utente
+    @PostMapping("/login")
+    public ResponseEntity<UtenteDTO> checkCredentials(@RequestBody UtenteDTO utenteDTO) {
+        try {
+            UtenteDTO utente = utenteService.checkCredentials(
+                utenteDTO.getUsername(), 
+                utenteDTO.getPassword()
+            );
+            return new ResponseEntity<>(utente, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }

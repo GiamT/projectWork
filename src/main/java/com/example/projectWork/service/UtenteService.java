@@ -7,6 +7,9 @@ import com.example.projectWork.dto.UtenteDTO;
 import com.example.projectWork.entity.Utente;
 import com.example.projectWork.repository.UtenteRepository;
 import com.example.projectWork.mapper.UtenteMapper;
+import com.example.projectWork.entity.Cliente;
+import com.example.projectWork.dto.ClienteDTO;
+import com.example.projectWork.repository.ClienteRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +19,9 @@ public class UtenteService {
 
     @Autowired
     private UtenteRepository utenteRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     private final UtenteMapper utenteMapper = new UtenteMapper(); // Instanzia il mapper
 
@@ -28,11 +34,26 @@ public class UtenteService {
         throw new RuntimeException("Utente non trovato");
     }
 
-    // Metodo per creare un nuovo utente
-    public UtenteDTO createUtente(UtenteDTO utenteDTO) {
-        Utente utente = utenteMapper.utenteDTOToUtente(utenteDTO); // Converte il DTO in entità
+    // Metodo per creare un nuovo utente con cliente esistente
+    public UtenteDTO createUtente(UtenteDTO utenteDTO, Integer clienteId) {
+        // Verifica se esiste già un utente con lo stesso username
+        if (utenteRepository.findByUsername(utenteDTO.getUsername()) != null) {
+            throw new RuntimeException("Username già in uso");
+        }
+
+        // Trova il cliente esistente
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente non trovato con ID: " + clienteId));
+
+        Utente utente = new Utente();
+        utente.setUsername(utenteDTO.getUsername());
+        utente.setPassword(utenteDTO.getPassword());
+        utente.setAmministratore(utenteDTO.getAmministratore());
+        utente.setCliente(cliente);
+        
+        // Salva l'utente
         utente = utenteRepository.save(utente);
-        return utenteMapper.utenteToUtenteDTO(utente); // Restituisce il DTO
+        return utenteMapper.utenteToUtenteDTO(utente);
     }
 
     // Metodo per ottenere tutti gli utenti
@@ -64,5 +85,14 @@ public class UtenteService {
             return true;
         }
         return false; // Utente non trovato
+    }
+
+    // Metodo per verificare le credenziali dell'utente
+    public UtenteDTO checkCredentials(String username, String password) {
+        Utente utente = utenteRepository.findByUsername(username);
+        if (utente != null && utente.getPassword().equals(password)) {
+            return utenteMapper.utenteToUtenteDTO(utente);
+        }
+        throw new RuntimeException("Credenziali non valide");
     }
 }
