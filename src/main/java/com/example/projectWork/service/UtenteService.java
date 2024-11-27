@@ -8,7 +8,6 @@ import com.example.projectWork.entity.Utente;
 import com.example.projectWork.repository.UtenteRepository;
 import com.example.projectWork.mapper.UtenteMapper;
 import com.example.projectWork.entity.Cliente;
-import com.example.projectWork.dto.ClienteDTO;
 import com.example.projectWork.repository.ClienteRepository;
 
 import java.util.List;
