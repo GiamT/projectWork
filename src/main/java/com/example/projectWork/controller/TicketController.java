@@ -11,15 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/tickets")
+@RequestMapping("/api/ticket")
 public class TicketController {
 
     @Autowired
     private TicketService ticketService;
 
     @PostMapping
-    public ResponseEntity<TicketDTO> createTicket(@RequestBody TicketDTO ticketDTO) {
-        TicketDTO createdTicket = ticketService.createTicket(ticketDTO);
+    public ResponseEntity<TicketDTO> createTicket(
+            @RequestBody TicketDTO ticketDTO,
+            @RequestParam Integer clienteId) {
+        TicketDTO createdTicket = ticketService.createTicket(ticketDTO, clienteId);
         return new ResponseEntity<>(createdTicket, HttpStatus.CREATED);
     }
 

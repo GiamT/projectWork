@@ -12,8 +12,6 @@ public class UtenteDTO {
     public UtenteDTO() {
     }
 
-     // Getter e setter
-
     public String getUsername() {
         return username;
     }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.example.projectWork.entity.Cliente;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     // Metodo per trovare un cliente tramite la sua email
     Cliente findByEmail(String email);
 }

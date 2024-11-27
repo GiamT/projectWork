@@ -65,7 +65,7 @@ public class ClienteService {
     }
 
     // Metodo per ottenere un Cliente tramite ID
-    public ClienteDTO getClienteById(Long id) {
+    public ClienteDTO getClienteById(Integer id) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente non trovato"));
         return clienteMapper.clienteToClienteDTO(cliente); // Usa il mapper per la conversione
     }
@@ -78,7 +78,7 @@ public class ClienteService {
     }
 
     // Metodo per aggiornare un Cliente
-    public ClienteDTO updateCliente(Long id, ClienteDTO clienteDTO) {
+    public ClienteDTO updateCliente(Integer id, ClienteDTO clienteDTO) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente non trovato"));
         cliente.setNome(clienteDTO.getNome());
         cliente.setEmail(clienteDTO.getEmail());
@@ -91,7 +91,7 @@ public class ClienteService {
     }
 
     // Metodo per eliminare un Cliente
-    public void deleteCliente(Long id) {
+    public void deleteCliente(Integer id) {
         clienteRepository.deleteById(id);
     }
 }

@@ -6,7 +6,8 @@ public class TicketDTO {
     private Long id;
     private String descrizione;
     private LocalDateTime dataCreazione;
-    private String stato;
+    private Long statoId;
+    private Integer clienteId;
 
     // Costruttore vuoto
     public TicketDTO() {
@@ -38,11 +39,19 @@ public class TicketDTO {
         this.dataCreazione = dataCreazione;
     }
 
-    public String getStato() {
-        return stato;
+    public Long getStatoId() {
+        return statoId;
     }
 
-    public void setStato(String stato) {
-        this.stato = stato;
+    public void setStatoId(Long statoId) {
+        this.statoId = statoId;
+    }
+
+    public Integer getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Integer clienteId) {
+        this.clienteId = clienteId;
     }
 }

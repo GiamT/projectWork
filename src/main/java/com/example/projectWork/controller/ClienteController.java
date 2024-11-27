@@ -25,7 +25,7 @@ public class ClienteController {
     }
 
     // Recupero di tutti i clienti
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ClienteDTO>> getAllClienti() {
         List<ClienteDTO> clienti = clienteService.getAllClienti();
         return new ResponseEntity<>(clienti, HttpStatus.OK);

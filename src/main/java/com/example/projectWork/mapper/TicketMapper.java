@@ -1,11 +1,8 @@
 package com.example.projectWork.mapper;
 
 import com.example.projectWork.entity.Ticket;
-
-import jakarta.persistence.EntityManager;
-
 import com.example.projectWork.dto.TicketDTO;
-import com.example.projectWork.entity.StatoTicket;
+import java.time.LocalDateTime;
 
 public class TicketMapper {
 
@@ -14,20 +11,17 @@ public class TicketMapper {
         ticketDTO.setId(ticket.getId());
         ticketDTO.setDescrizione(ticket.getDescrizione());
         ticketDTO.setDataCreazione(ticket.getDataCreazione());
-        ticketDTO.setStato(ticket.getStato().getStato());  // Assuming StatoTicket has a getStato() method
+        ticketDTO.setStatoId(ticket.getStato() != null ? ticket.getStato().getId() : null);
+        ticketDTO.setClienteId(ticket.getCliente() != null ? ticket.getCliente().getId() : null);
         return ticketDTO;
     }
 
-    public static Ticket toEntity(TicketDTO ticketDTO, EntityManager entityManager) {
+    public static Ticket toEntity(TicketDTO ticketDTO) {
         Ticket ticket = new Ticket();
         ticket.setId(ticketDTO.getId());
         ticket.setDescrizione(ticketDTO.getDescrizione());
-        ticket.setDataCreazione(ticketDTO.getDataCreazione());
-
-        // Usando il metodo valueOf per ottenere il StatoTicket dalla stringa
-        StatoTicket stato = StatoTicket.valueOf(ticketDTO.getStato(), entityManager);
-        ticket.setStato(stato);
-
+        ticket.setDataCreazione(ticketDTO.getDataCreazione() != null ? 
+            ticketDTO.getDataCreazione() : LocalDateTime.now());
         return ticket;
     }
 }
