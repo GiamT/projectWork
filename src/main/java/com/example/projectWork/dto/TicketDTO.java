@@ -1,0 +1,48 @@
+package com.example.projectWork.dto;
+
+import java.time.LocalDateTime;
+
+public class TicketDTO {
+    private Long id;
+    private String descrizione;
+    private LocalDateTime dataCreazione;
+    private String stato;
+
+    // Costruttore vuoto
+    public TicketDTO() {
+    }
+
+    // Getter e setter
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public LocalDateTime getDataCreazione() {
+        return dataCreazione;
+    }
+
+    public void setDataCreazione(LocalDateTime dataCreazione) {
+        this.dataCreazione = dataCreazione;
+    }
+
+    public String getStato() {
+        return stato;
+    }
+
+    public void setStato(String stato) {
+        this.stato = stato;
+    }
+}
