@@ -1,7 +1,6 @@
 package com.example.projectWork.dto;
 
 public class UtenteDTO {
-    private Long id;
     private String username;
     private String password;
     private Boolean amministratore;
@@ -14,15 +13,6 @@ public class UtenteDTO {
     }
 
      // Getter e setter
-    public Long getId() {
-        return id;
-    }
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 
     public String getUsername() {
         return username;
